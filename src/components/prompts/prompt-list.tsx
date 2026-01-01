@@ -1,9 +1,14 @@
 "use client";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useTRPC } from "@/server/trpc/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Compass, LayoutGrid, Plus, Search } from "lucide-react";
+import { Check, Compass, LayoutGrid, Palette, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PromptCard } from "./prompt-card";
@@ -16,6 +21,136 @@ interface Tag {
   name: string;
   color: string;
 }
+
+const MACARON_COLORS = [
+  "#FFB7B2", // Pastel Red
+  "#FFDAC1", // Pastel Orange
+  "#E2F0CB", // Pastel Green
+  "#B5EAD7", // Pastel Mint
+  "#C7CEEA", // Pastel Purple
+  "#FF9AA2", // Light Red
+  "#FFB6C1", // Light Pink (Demo)
+  "#ADD8E6", // Light Blue (Demo)
+  "#FFD1DC", // Pastel Pink
+  "#E0F7FA", // Cyan 50
+  "#F3E5F5", // Purple 50
+  "#FFF9C4", // Yellow 100
+  "#DCEDC8", // Light Green 100
+  "#F8BBD0", // Pink 100
+  "#D1C4E9", // Deep Purple 100
+  "#BBDEFB", // Blue 100
+];
+
+const TagItem = ({
+  tag,
+  isSelected,
+  onSelect,
+  onUpdate,
+  onDeleteRequest,
+}: {
+  tag: Tag;
+  isSelected: boolean;
+  onSelect: (id: string | null) => void;
+  onUpdate: (id: string, color: string) => void;
+  onDeleteRequest: (id: string) => void;
+}) => {
+  const [tempColor, setTempColor] = useState(tag.color);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Reset temp color when popover opens/closes or tag color changes externally
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setTempColor(tag.color);
+    }
+  };
+
+  return (
+    <div className="group relative flex items-center">
+      <button
+        type="button"
+        onClick={() => onSelect(isSelected ? null : tag.id)}
+        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${isSelected ? "chip-selected pr-20" : ""
+          }`}
+        style={{
+          color: isSelected
+            ? "hsl(var(--md-on-secondary-container))"
+            : "hsl(var(--md-on-surface-variant))",
+          backgroundColor: isSelected
+            ? "hsl(var(--md-primary))"
+            : "hsl(var(--md-surface-variant))",
+        }}
+      >
+        <span
+          className="w-2.5 h-2.5 rounded-full shrink-0 transition-colors duration-200"
+          style={{ backgroundColor: isOpen ? tempColor : tag.color }}
+        />
+        <span className="truncate flex-1 text-left">{tag.name}</span>
+        {isSelected && (
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: "hsl(var(--md-primary))" }}
+          />
+        )}
+      </button>
+
+      {/* Tag Actions - Only visible when selected and hovered */}
+      {isSelected && (
+        <div className="absolute right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Popover open={isOpen} onOpenChange={handleOpenChange}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                title="變更顏色"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Palette className="w-3.5 h-3.5 text-current opacity-70" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-48 p-2 space-y-3" align="start">
+              <div className="grid grid-cols-4 gap-2">
+                {MACARON_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    className={`w-8 h-8 rounded-full border transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${tempColor === color ? "border-black/40 scale-110 ring-2 ring-offset-1 ring-black/10" : "border-black/5"
+                      }`}
+                    style={{ backgroundColor: color }}
+                    onClick={() => setTempColor(color)}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onUpdate(tag.id, tempColor);
+                  setIsOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium"
+              >
+                <Check className="w-3.5 h-3.5" />
+                確認變更
+              </button>
+            </PopoverContent>
+          </Popover>
+
+          <button
+            type="button"
+            className="p-1.5 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteRequest(tag.id);
+            }}
+            title="刪除標籤"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export function PromptList() {
   const trpc = useTRPC();
@@ -32,6 +167,7 @@ export function PromptList() {
     imageUrl?: string | null;
   } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [deleteTagTarget, setDeleteTagTarget] = useState<string | null>(null);
   const [previewPrompt, setPreviewPrompt] = useState<{
     id: string;
     title: string;
@@ -95,6 +231,34 @@ export function PromptList() {
       },
       onError: (error) => {
         toast.error(`建立標籤失敗: ${error.message}`);
+      },
+    })
+  );
+
+  const updateTagMutation = useMutation(
+    trpc.tag.update.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: trpc.tag.list.queryKey() });
+        toast.success("標籤更新成功");
+      },
+      onError: (error) => {
+        toast.error(`更新標籤失敗: ${error.message}`);
+      },
+    })
+  );
+
+  const deleteTagMutation = useMutation(
+    trpc.tag.delete.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: trpc.tag.list.queryKey() });
+        setDeleteTagTarget(null);
+        if (selectedTagId === deleteTagTarget) {
+          setSelectedTagId(null);
+        }
+        toast.success("標籤已刪除");
+      },
+      onError: (error) => {
+        toast.error(`刪除標籤失敗: ${error.message}`);
       },
     })
   );
@@ -191,6 +355,12 @@ export function PromptList() {
     }
   };
 
+  const confirmDeleteTag = () => {
+    if (deleteTagTarget) {
+      deleteTagMutation.mutate({ id: deleteTagTarget });
+    }
+  };
+
   const handlePreview = (id: string) => {
     const prompt = promptsQuery.data?.find((p) => p.id === id);
     if (prompt) {
@@ -267,31 +437,14 @@ export function PromptList() {
 
             <div className="space-y-1">
               {tags.map((tag: Tag) => (
-                <button
+                <TagItem
                   key={tag.id}
-                  type="button"
-                  onClick={() => setSelectedTagId(selectedTagId === tag.id ? null : tag.id)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${selectedTagId === tag.id ? "chip-selected" : ""
-                    }`}
-                  style={{
-                    color:
-                      selectedTagId === tag.id
-                        ? "hsl(var(--md-on-secondary-container))"
-                        : "hsl(var(--md-on-surface-variant))",
-                  }}
-                >
-                  <span
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: tag.color }}
-                  />
-                  <span className="truncate flex-1 text-left">{tag.name}</span>
-                  {selectedTagId === tag.id && (
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: "hsl(var(--md-primary))" }}
-                    />
-                  )}
-                </button>
+                  tag={tag}
+                  isSelected={selectedTagId === tag.id}
+                  onSelect={setSelectedTagId}
+                  onUpdate={(id, color) => updateTagMutation.mutate({ id, color })}
+                  onDeleteRequest={setDeleteTagTarget}
+                />
               ))}
 
               {isCreatingTag && (
@@ -467,6 +620,18 @@ export function PromptList() {
         variant="danger"
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}
+      />
+
+      {/* Delete Tag Confirmation */}
+      <ConfirmDialog
+        isOpen={!!deleteTagTarget}
+        title="刪除標籤"
+        message="確定要刪除這個標籤嗎？這不會刪除任何 Prompt，但會移除該標籤的關聯。"
+        confirmText="刪除"
+        cancelText="取消"
+        variant="danger"
+        onConfirm={confirmDeleteTag}
+        onCancel={() => setDeleteTagTarget(null)}
       />
 
       {/* Preview Modal */}
