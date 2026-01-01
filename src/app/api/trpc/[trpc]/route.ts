@@ -5,6 +5,8 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 /**
  * tRPC HTTP handler for Next.js App Router
  */
+export const dynamic = "force-dynamic";
+
 const handler = (req: Request) =>
   fetchRequestHandler({
     endpoint: "/api/trpc",
@@ -14,8 +16,8 @@ const handler = (req: Request) =>
     onError:
       process.env.NODE_ENV === "development"
         ? ({ path, error }) => {
-            console.error(`❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`);
-          }
+          console.error(`❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`);
+        }
         : undefined,
   });
 
