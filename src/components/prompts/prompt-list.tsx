@@ -367,13 +367,13 @@ export function PromptList() {
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
                 style={{ color: "hsl(var(--md-on-surface-variant))" }}
               />
-              <input
+              {/* <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="搜尋 Prompt..."
                 className="input-outlined w-full pl-11 h-12"
-              />
+              /> */}
             </div>
 
             <button
