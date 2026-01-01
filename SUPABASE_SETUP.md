@@ -40,4 +40,21 @@ USING ( bucket_id = 'images' AND auth.uid() = owner );
 2. Select your project.
 3. Go to the **SQL Editor** section (icon on the left).
 4. Paste the SQL code above.
-5. Click **Run**.
+
+## Google OAuth Setup
+
+1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2.  Create a new project or select an existing one.
+3.  Go to **APIs & Services** > **Credentials**.
+4.  Click **Create Credentials** > **OAuth client ID**.
+5.  Select **Web application** as the application type.
+6.  Add the following URI to **Authorized redirect URIs**:
+    `https://<your-project-ref>.supabase.co/auth/v1/callback`
+    *(Replace `<your-project-ref>` with your Supabase Project ID)*
+7.  Copy the **Client ID** and **Client Secret**.
+8.  Go to your [Supabase Dashboard](https://supabase.com/dashboard).
+9.  Go to **Authentication** > **Providers** > **Google**.
+10. Toggle **Enable Google** to ON.
+11. Paste your Client ID and Client Secret.
+12. Click **Save**.
+
