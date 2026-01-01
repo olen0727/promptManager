@@ -121,6 +121,7 @@ export const promptRouter = router({
         ...promptData,
         image_url: imageUrl || null,
         user_id: ctx.user.id,
+        user_email: ctx.user.email, // Store email for DB browsing convenience
         is_public: isPublic,
       })
       .select()

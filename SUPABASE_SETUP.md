@@ -27,11 +27,16 @@ ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK ( bucket_id = 'images' AND auth.role() = 'authenticated' );
 
+
 -- Allow users to update/delete their own images (Optional, strictly speaking only upload is minimal requirement)
 CREATE POLICY "Users can delete own images"
 ON storage.objects FOR DELETE
 TO authenticated
 USING ( bucket_id = 'images' AND auth.uid() = owner );
+
+-- 5. (Optional) Add user_email column for easier database browsing
+ALTER TABLE prompts ADD COLUMN IF NOT EXISTS user_email TEXT;
+
 ```
 
 ## How to run:
