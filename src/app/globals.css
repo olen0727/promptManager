@@ -1,0 +1,586 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Material Design 3 Color System - Purple Theme */
+    /* Primary */
+    --md-primary: 270 100% 50%;
+    --md-on-primary: 0 0% 100%;
+    --md-primary-container: 270 100% 90%;
+    --md-on-primary-container: 270 100% 10%;
+
+    /* Secondary */
+    --md-secondary: 280 60% 45%;
+    --md-on-secondary: 0 0% 100%;
+    --md-secondary-container: 280 80% 90%;
+    --md-on-secondary-container: 280 60% 10%;
+
+    /* Tertiary */
+    --md-tertiary: 340 80% 50%;
+    --md-on-tertiary: 0 0% 100%;
+    --md-tertiary-container: 340 100% 90%;
+    --md-on-tertiary-container: 340 80% 10%;
+
+    /* Error */
+    --md-error: 0 75% 50%;
+    --md-on-error: 0 0% 100%;
+    --md-error-container: 0 100% 90%;
+    --md-on-error-container: 0 75% 10%;
+
+    /* Surface (Dark Theme) */
+    --md-surface: 270 15% 10%;
+    --md-surface-dim: 270 15% 6%;
+    --md-surface-bright: 270 15% 20%;
+    --md-surface-container-lowest: 270 15% 4%;
+    --md-surface-container-low: 270 15% 12%;
+    --md-surface-container: 270 15% 14%;
+    --md-surface-container-high: 270 15% 18%;
+    --md-surface-container-highest: 270 15% 22%;
+
+    /* On Surface */
+    --md-on-surface: 270 10% 90%;
+    --md-on-surface-variant: 270 10% 70%;
+    --md-outline: 270 10% 45%;
+    --md-outline-variant: 270 10% 30%;
+
+    /* Inverse */
+    --md-inverse-surface: 270 10% 90%;
+    --md-inverse-on-surface: 270 15% 20%;
+    --md-inverse-primary: 270 100% 40%;
+
+    /* Shadow */
+    --md-shadow: 0 0% 0%;
+
+    /* State Layers */
+    --md-state-hover: 0.08;
+    --md-state-focus: 0.12;
+    --md-state-pressed: 0.12;
+    --md-state-dragged: 0.16;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--md-outline-variant));
+  }
+
+  body {
+    background: hsl(var(--md-surface));
+    color: hsl(var(--md-on-surface));
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  /* MD3 Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--md-outline-variant));
+    border-radius: 100px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--md-outline));
+  }
+}
+
+@layer components {
+
+  /* MD3 Card - Elevated */
+  .card {
+    @apply relative rounded-3xl;
+    background: hsl(var(--md-surface-container-low));
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 1px 3px 1px hsl(var(--md-shadow) / 0.15);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .card:hover {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 2px 6px 2px hsl(var(--md-shadow) / 0.15);
+  }
+
+  /* MD3 Card - Filled */
+  .card-filled {
+    @apply relative rounded-3xl;
+    background: hsl(var(--md-surface-container-highest));
+  }
+
+  /* MD3 Card - Outlined */
+  .card-outlined {
+    @apply relative rounded-3xl;
+    background: hsl(var(--md-surface));
+    border: 1px solid hsl(var(--md-outline-variant));
+  }
+
+  /* MD3 Filled Button */
+  .btn-primary {
+    @apply relative px-6 py-3 font-medium text-sm rounded-full overflow-hidden;
+    background: hsl(var(--md-primary));
+    color: hsl(var(--md-on-primary));
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 1px 3px 1px hsl(var(--md-shadow) / 0.15);
+  }
+
+  .btn-primary:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--md-on-primary) / var(--md-state-hover));
+  }
+
+  .btn-primary:active::before {
+    background: hsl(var(--md-on-primary) / var(--md-state-pressed));
+  }
+
+  .btn-primary:disabled {
+    background: hsl(var(--md-on-surface) / 0.12);
+    color: hsl(var(--md-on-surface) / 0.38);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  /* MD3 Tonal Button */
+  .btn-secondary {
+    @apply relative px-6 py-3 font-medium text-sm rounded-full overflow-hidden;
+    background: hsl(var(--md-secondary-container));
+    color: hsl(var(--md-on-secondary-container));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .btn-secondary:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--md-on-secondary-container) / var(--md-state-hover));
+  }
+
+  .btn-secondary:active::before {
+    background: hsl(var(--md-on-secondary-container) / var(--md-state-pressed));
+  }
+
+  /* MD3 Outlined Button */
+  .btn-outlined {
+    @apply relative px-6 py-3 font-medium text-sm rounded-full overflow-hidden;
+    background: transparent;
+    color: hsl(var(--md-primary));
+    border: 1px solid hsl(var(--md-outline));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .btn-outlined:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--md-primary) / var(--md-state-hover));
+  }
+
+  /* MD3 Text Button */
+  .btn-text {
+    @apply relative px-3 py-2 font-medium text-sm rounded-full overflow-hidden;
+    background: transparent;
+    color: hsl(var(--md-primary));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .btn-text:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--md-primary) / var(--md-state-hover));
+  }
+
+  /* MD3 FAB */
+  .fab {
+    @apply flex items-center justify-center rounded-2xl;
+    width: 56px;
+    height: 56px;
+    background: hsl(var(--md-primary-container));
+    color: hsl(var(--md-on-primary-container));
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 2px 6px 2px hsl(var(--md-shadow) / 0.15);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .fab:hover {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 4px 8px 3px hsl(var(--md-shadow) / 0.15);
+  }
+
+  /* MD3 Extended FAB */
+  .fab-extended {
+    @apply flex items-center gap-3 px-4 rounded-2xl font-medium;
+    height: 56px;
+    background: hsl(var(--md-primary-container));
+    color: hsl(var(--md-on-primary-container));
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 2px 6px 2px hsl(var(--md-shadow) / 0.15);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  /* MD3 Input Field */
+  .input {
+    @apply w-full px-4 py-3 text-sm rounded-t-lg;
+    background: hsl(var(--md-surface-container-highest));
+    border-bottom: 2px solid hsl(var(--md-on-surface-variant));
+    color: hsl(var(--md-on-surface));
+    caret-color: hsl(var(--md-primary));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .input::placeholder {
+    color: hsl(var(--md-on-surface-variant));
+  }
+
+  .input:focus {
+    outline: none;
+    border-bottom-color: hsl(var(--md-primary));
+  }
+
+  /* MD3 Outlined Input */
+  .input-outlined {
+    @apply w-full px-4 py-3 text-sm rounded-lg;
+    background: transparent;
+    border: 1px solid hsl(var(--md-outline));
+    color: hsl(var(--md-on-surface));
+    caret-color: hsl(var(--md-primary));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .input-outlined:focus {
+    outline: none;
+    border-color: hsl(var(--md-primary));
+    border-width: 2px;
+    padding: 11px 15px;
+  }
+
+  /* MD3 Chip */
+  .chip {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-lg;
+    background: hsl(var(--md-surface-container-low));
+    color: hsl(var(--md-on-surface-variant));
+    border: 1px solid hsl(var(--md-outline));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .chip:hover {
+    background: hsl(var(--md-surface-container));
+  }
+
+  .chip-selected {
+    background: hsl(var(--md-secondary-container));
+    color: hsl(var(--md-on-secondary-container));
+    border-color: transparent;
+  }
+
+  /* MD3 Tag/Badge */
+  .tag {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-lg;
+    background: hsl(var(--md-primary) / 0.15);
+    /* color: hsl(var(--md-primary)); */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px
+  }
+
+  /* MD3 Code Block */
+  .code-block {
+    @apply p-4 text-sm font-mono rounded-2xl;
+    background: hsl(var(--md-surface-container-lowest));
+    color: hsl(var(--md-on-surface-variant));
+    border: 1px solid hsl(var(--md-outline-variant));
+  }
+
+  .image-block {
+    @apply p-4 text-sm font-mono rounded-2xl;
+    background: hsl(var(--md-surface-container-lowest));
+    color: hsl(var(--md-on-surface-variant));
+    border: 1px solid hsl(var(--md-outline-variant));
+    padding: 0;
+  }
+
+  /* MD3 Navigation Rail / App Bar */
+  .nav-bar {
+    background: hsl(var(--md-surface));
+    border-bottom: 1px solid hsl(var(--md-surface-container-high));
+  }
+
+  /* MD3 Navigation Drawer */
+  .nav-drawer {
+    background: hsl(var(--md-surface-container-low));
+    border-right: 1px solid hsl(var(--md-outline-variant));
+  }
+
+  /* MD3 Dialog */
+  .dialog {
+    @apply rounded-3xl p-6;
+    background: hsl(var(--md-surface-container-high));
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 4px 8px 3px hsl(var(--md-shadow) / 0.15);
+  }
+
+  /* MD3 Scrim/Overlay */
+  .scrim {
+    background: hsl(var(--md-shadow) / 0.32);
+  }
+
+  /* MD3 Divider */
+  .divider {
+    height: 1px;
+    background: hsl(var(--md-outline-variant));
+  }
+
+  /* MD3 Icon Button */
+  .icon-btn {
+    @apply relative flex items-center justify-center rounded-full overflow-hidden;
+    width: 40px;
+    height: 40px;
+    color: hsl(var(--md-on-surface-variant));
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    border: 1px solid hsl(var(--md-outline-variant));
+  }
+
+  .icon-btn:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--md-on-surface-variant) / var(--md-state-hover));
+  }
+
+  /* Text Styles */
+  .text-display-large {
+    font-size: 57px;
+    line-height: 64px;
+    font-weight: 400;
+    letter-spacing: -0.25px;
+  }
+
+  .text-display-medium {
+    font-size: 45px;
+    line-height: 52px;
+    font-weight: 400;
+  }
+
+  .text-headline-large {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 400;
+  }
+
+  .text-headline-medium {
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 400;
+  }
+
+  .text-title-large {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 400;
+  }
+
+  .text-title-medium {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+  }
+
+  .text-body-large {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  .text-body-medium {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+  }
+
+  .text-label-large {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+  }
+
+  .text-label-medium {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+}
+
+@layer utilities {
+
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fadeIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Scale in (for dialogs) */
+  .scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Slide up */
+  .slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* MD3 Stagger animation */
+  .stagger-children>* {
+    opacity: 0;
+    animation: fadeIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
+  }
+
+  .stagger-children>*:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+
+  .stagger-children>*:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  .stagger-children>*:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+
+  .stagger-children>*:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  .stagger-children>*:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+
+  .stagger-children>*:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+
+  .stagger-children>*:nth-child(7) {
+    animation-delay: 0.35s;
+  }
+
+  .stagger-children>*:nth-child(8) {
+    animation-delay: 0.4s;
+  }
+
+  .stagger-children>*:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    background: linear-gradient(90deg,
+        hsl(var(--md-surface-container)) 0%,
+        hsl(var(--md-surface-container-high)) 50%,
+        hsl(var(--md-surface-container)) 100%);
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* State layer hover effect */
+  .state-layer {
+    @apply relative overflow-hidden;
+  }
+
+  .state-layer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: currentColor;
+    transition: opacity 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .state-layer:hover::before {
+    opacity: var(--md-state-hover);
+  }
+
+  .state-layer:active::before {
+    opacity: var(--md-state-pressed);
+  }
+
+  /* Elevation levels */
+  .elevation-1 {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 1px 3px 1px hsl(var(--md-shadow) / 0.15);
+  }
+
+  .elevation-2 {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 2px 6px 2px hsl(var(--md-shadow) / 0.15);
+  }
+
+  .elevation-3 {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 4px 8px 3px hsl(var(--md-shadow) / 0.15);
+  }
+
+  .elevation-4 {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 6px 10px 4px hsl(var(--md-shadow) / 0.15);
+  }
+
+  .elevation-5 {
+    box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 8px 12px 6px hsl(var(--md-shadow) / 0.15);
+  }
+}
