@@ -38,6 +38,82 @@ USING ( bucket_id = 'images' AND auth.uid() = owner );
 ALTER TABLE prompts ADD COLUMN IF NOT EXISTS user_email TEXT;
 ALTER TABLE prompts ADD COLUMN IF NOT EXISTS user_name TEXT;
 
+-- 6. Automate Demo Prompt for New Users
+-- Function to handle new user creation
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+DECLARE
+  new_tag_id_cute UUID;
+  new_tag_id_animal UUID;
+  new_prompt_id UUID;
+BEGIN
+  -- 1. Create Default Tags
+  INSERT INTO public.tags (name, color, user_id)
+  VALUES ('可愛', '#FFB6C1', new.id)
+  RETURNING id INTO new_tag_id_cute;
+
+  INSERT INTO public.tags (name, color, user_id)
+  VALUES ('動物', '#ADD8E6', new.id)
+  RETURNING id INTO new_tag_id_animal;
+
+  -- 2. Create Demo Prompt
+  INSERT INTO public.prompts (
+    title, 
+    description, 
+    content, 
+    user_id, 
+    is_public,
+    user_email,
+    user_name
+  )
+  VALUES (
+    '示範Prompt',
+    '這是個示範的Prompt, 您可以在變數後增加冒號及選項',
+    '畫面以超高解析度 8K 呈現，結合 HDR 效果與 {{style:樂高積木風格,Unreal Engine 5 寫實光追,Pixar 卡通渲染,黏土動畫值感,手辦級實體渲染}} ，細節極為精緻細膩。畫面中央是一碗盛在瓷碗中的湯圓，碗裡的湯圓被塑造成多種 可愛動物 的臉部，包括加菲貓、美洲豹、狐狸、豬鼻子白兔、犀牛、兔耳白鴨、戴皇冠的獅子王、哥吉拉、絨鼠、戴皇冠的女王蜂、鹿角棕髮少年、史努比、肥胖橘貓以及白兔子，造型豐富且充滿童趣。
+背景為木質桌面散景，營造出溫暖柔和的氛圍。畫面上方以童趣字體書寫了標題「{{pic_title}}」，為整幅作品增添了可愛又應景的節慶氛圍。',
+    new.id,
+    false,
+    new.email,
+    COALESCE(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', split_part(new.email, '@', 1))
+  )
+  RETURNING id INTO new_prompt_id;
+
+  -- 3. Link Tags to Prompt
+  INSERT INTO public.prompt_tags (prompt_id, tag_id)
+  VALUES 
+  (new_prompt_id, new_tag_id_cute),
+  (new_prompt_id, new_tag_id_animal);
+
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to call the function on new user creation
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+
+-- 7. (Recommended) Enable Cascade Delete for User Data
+-- This ensures that when a user is deleted from Auth, their Prompts and Tags are also removed.
+-- NOTE: If your constraint names are different, you may need to check them in Table Editor first.
+
+-- Attempt to fix prompts table
+ALTER TABLE public.prompts
+DROP CONSTRAINT IF EXISTS prompts_user_id_fkey,
+ADD CONSTRAINT prompts_user_id_fkey
+FOREIGN KEY (user_id)
+REFERENCES auth.users(id)
+ON DELETE CASCADE;
+
+-- Attempt to fix tags table
+ALTER TABLE public.tags
+DROP CONSTRAINT IF EXISTS tags_user_id_fkey,
+ADD CONSTRAINT tags_user_id_fkey
+FOREIGN KEY (user_id)
+REFERENCES auth.users(id)
+ON DELETE CASCADE;
+
+
+
 ```
 
 ## How to run:
