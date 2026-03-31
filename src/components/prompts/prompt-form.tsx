@@ -88,7 +88,7 @@ export function PromptForm({
       content,
       description,
       tagIds: selectedTagIds,
-      newTags: pendingTags.map(t => t.name),
+      newTags: pendingTags.map((t) => t.name),
       imageUrl: imageUrl || undefined,
     });
   };
@@ -98,25 +98,23 @@ export function PromptForm({
       setIsUploading(true);
       const supabase = createClient();
 
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('images')
-        .upload(filePath, file);
+      const { error: uploadError } = await supabase.storage.from("images").upload(filePath, file);
 
       if (uploadError) {
         throw uploadError;
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("images").getPublicUrl(filePath);
 
       setImageUrl(publicUrl);
     } catch (error: any) {
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       if (error.message?.includes("Bucket not found")) {
         toast.error("儲存桶尚未設定，請聯繫管理員建立 'images' bucket");
       } else {
@@ -130,7 +128,7 @@ export function PromptForm({
   const handlePaste = async (e: React.ClipboardEvent) => {
     if (e.clipboardData.files.length > 0) {
       const file = e.clipboardData.files[0];
-      if (file && file.type.startsWith('image/')) {
+      if (file && file.type.startsWith("image/")) {
         e.preventDefault();
         await uploadImage(file);
       }
@@ -146,8 +144,8 @@ export function PromptForm({
 
   const toggleTag = (tagId: string) => {
     // Check if it's a pending tag
-    if (pendingTags.some(t => t.id === tagId)) {
-      setPendingTags(prev => prev.filter(t => t.id !== tagId));
+    if (pendingTags.some((t) => t.id === tagId)) {
+      setPendingTags((prev) => prev.filter((t) => t.id !== tagId));
       return;
     }
 
@@ -158,14 +156,12 @@ export function PromptForm({
 
   const selectedTags = [
     ...availableTags.filter((tag) => selectedTagIds.includes(tag.id)),
-    ...pendingTags
+    ...pendingTags,
   ];
   const unselectedTags = availableTags.filter((tag) => !selectedTagIds.includes(tag.id));
 
   const filteredTags = tagInput.trim()
-    ? unselectedTags.filter((tag) =>
-      tag.name.toLowerCase().includes(tagInput.toLowerCase())
-    )
+    ? unselectedTags.filter((tag) => tag.name.toLowerCase().includes(tagInput.toLowerCase()))
     : unselectedTags.slice(0, 5);
 
   const handleTagInputKeyDown = (e: React.KeyboardEvent) => {
@@ -203,14 +199,13 @@ export function PromptForm({
         const newTag: Tag = {
           id: `pending-${Date.now()}`,
           name: trimmedInput,
-          color: '#6366f1' // Default color for new tags
+          color: "#6366f1", // Default color for new tags
         };
-        setPendingTags(prev => [...prev, newTag]);
+        setPendingTags((prev) => [...prev, newTag]);
       }
       setTagInput("");
       setActiveTagIndex(0);
       setUserNavigated(false);
-
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       setUserNavigated(true);
@@ -242,11 +237,8 @@ export function PromptForm({
       {/* Dialog */}
       <div className="dialog relative w-full max-w-2xl max-h-[85vh] scale-in flex flex-col">
         {/* Header */}
-        <div
-          className="flex items-center justify-between pb-4 border-b shrink-0"
-          style={{ borderColor: "hsl(var(--md-outline-variant))" }}
-        >
-          <h2 className="text-headline-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
+        <div className="flex items-center justify-between pb-4 border-b shrink-0 border-md-outline-variant">
+          <h2 className="text-headline-medium text-md-on-surface">
             {initialData ? "编辑 Prompt" : "新建 Prompt"}
           </h2>
           <button type="button" onClick={onClose} className="icon-btn">
@@ -259,10 +251,9 @@ export function PromptForm({
             <div>
               <label
                 htmlFor="title"
-                className="block text-label-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
+                className="block text-label-large mb-2 text-md-on-surface-variant"
               >
-                標題 <span style={{ color: "hsl(var(--md-error))" }}>*</span>
+                標題 <span className="text-md-error">*</span>
               </label>
               <input
                 id="title"
@@ -278,8 +269,7 @@ export function PromptForm({
             <div>
               <label
                 htmlFor="description"
-                className="block text-label-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
+                className="block text-label-large mb-2 text-md-on-surface-variant"
               >
                 描述
               </label>
@@ -295,27 +285,24 @@ export function PromptForm({
 
             {/* Image Preview Field */}
             <div>
-              <label
-                className="block text-label-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <label className="block text-label-large mb-2 text-md-on-surface-variant">
                 預覽圖片 (選填)
               </label>
 
               {!imageUrl ? (
                 <div
-                  className="rounded-2xl border border-dashed overflow-hidden"
-                  style={{ borderColor: "hsl(var(--md-outline-variant))" }}
+                  className="rounded-2xl border border-dashed overflow-hidden border-md-outline-variant"
                   onPaste={handlePaste} // Support paste on container
                 >
-                  <div className="flex border-b" style={{ borderColor: "hsl(var(--md-outline-variant))" }}>
+                  <div className="flex border-b border-md-outline-variant">
                     <button
                       type="button"
                       onClick={() => setUploadTab("upload")}
-                      className={`flex-1 px-4 py-3 text-label-large transition-colors ${uploadTab === "upload"
-                        ? "bg-[hsl(var(--md-secondary-container))] text-[hsl(var(--md-on-secondary-container))]"
-                        : "hover:bg-[hsl(var(--md-surface-container-high))]"
-                        }`}
+                      className={`flex-1 px-4 py-3 text-label-large transition-colors ${
+                        uploadTab === "upload"
+                          ? "bg-md-secondary-container text-md-on-secondary-container"
+                          : "hover:bg-md-surface-container-high"
+                      }`}
                     >
                       <div className="flex items-center justify-center gap-2">
                         <Upload className="w-4 h-4" />
@@ -325,10 +312,11 @@ export function PromptForm({
                     <button
                       type="button"
                       onClick={() => setUploadTab("url")}
-                      className={`flex-1 px-4 py-3 text-label-large transition-colors ${uploadTab === "url"
-                        ? "bg-[hsl(var(--md-secondary-container))] text-[hsl(var(--md-on-secondary-container))]"
-                        : "hover:bg-[hsl(var(--md-surface-container-high))]"
-                        }`}
+                      className={`flex-1 px-4 py-3 text-label-large transition-colors ${
+                        uploadTab === "url"
+                          ? "bg-md-secondary-container text-md-on-secondary-container"
+                          : "hover:bg-md-surface-container-high"
+                      }`}
                     >
                       <div className="flex items-center justify-center gap-2">
                         <Link className="w-4 h-4" />
@@ -351,18 +339,23 @@ export function PromptForm({
                           />
                           <label
                             htmlFor="image-upload"
-                            className={`cursor-pointer flex flex-col items-center gap-2 p-8 rounded-xl border border-dashed transition-all ${isUploading ? "opacity-50 cursor-not-allowed" : "hover:bg-[hsl(var(--md-surface-container-high))]"
-                              }`}
-                            style={{ borderColor: "hsl(var(--md-outline))" }}
+                            className={`cursor-pointer flex flex-col items-center gap-2 p-8 rounded-xl border border-dashed transition-all border-md-outline ${
+                              isUploading
+                                ? "opacity-50 cursor-not-allowed"
+                                : "hover:bg-md-surface-container-high"
+                            }`}
                           >
                             {isUploading ? (
-                              <Loader2 className="w-8 h-8 animate-spin text-[hsl(var(--md-primary))]" />
+                              <Loader2 className="w-8 h-8 animate-spin text-md-primary" />
                             ) : (
-                              <ImageIcon className="w-8 h-8 text-[hsl(var(--md-outline))]" />
+                              <ImageIcon className="w-8 h-8 text-md-outline" />
                             )}
                             <div className="text-center">
-                              <span className="text-label-large text-[hsl(var(--md-primary))]">點擊上傳</span>
-                              <span className="text-label-medium text-[hsl(var(--md-on-surface-variant))]"> 或直接貼上圖片</span>
+                              <span className="text-label-large text-md-primary">點擊上傳</span>
+                              <span className="text-label-medium text-md-on-surface-variant">
+                                {" "}
+                                或直接貼上圖片
+                              </span>
                             </div>
                           </label>
                         </div>
@@ -384,12 +377,12 @@ export function PromptForm({
                   </div>
                 </div>
               ) : (
-                <div className="relative group rounded-2xl overflow-hidden border" style={{ borderColor: "hsl(var(--md-outline-variant))" }}>
+                <div className="relative group rounded-2xl overflow-hidden border border-md-outline-variant">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}
                     alt="Preview"
-                    className="w-full h-48 object-cover bg-[hsl(var(--md-surface-container-high))]"
+                    className="w-full h-48 object-cover bg-md-surface-container-high"
                   />
                   <button
                     type="button"
@@ -404,21 +397,10 @@ export function PromptForm({
 
             {/* Tags */}
             <div>
-              <span
-                className="block text-label-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
-                標籤
-              </span>
+              <span className="block text-label-large mb-2 text-md-on-surface-variant">標籤</span>
               <div className="relative">
                 {/* Selected tags + Add button */}
-                <div
-                  className="flex flex-wrap items-center gap-2 p-3 rounded-2xl min-h-[48px]"
-                  style={{
-                    background: "hsl(var(--md-surface-container-highest))",
-                    border: "1px solid hsl(var(--md-outline-variant))",
-                  }}
-                >
+                <div className="flex flex-wrap items-center gap-2 p-3 rounded-2xl min-h-[48px] bg-md-surface-container-highest border border-md-outline-variant">
                   {selectedTags.map((tag) => (
                     <button
                       key={tag.id}
@@ -455,15 +437,11 @@ export function PromptForm({
                     }}
                     onKeyDown={handleTagInputKeyDown}
                     placeholder={selectedTags.length === 0 ? "搜尋或添加標籤..." : ""}
-                    className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-body-medium h-8"
-                    style={{ color: "hsl(var(--md-on-surface))" }}
+                    className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-body-medium h-8 text-md-on-surface"
                   />
 
                   {availableTags.length === 0 && selectedTags.length === 0 && (
-                    <span
-                      className="text-body-medium absolute right-3 top-3 pointer-events-none"
-                      style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                    >
+                    <span className="text-body-medium absolute right-3 top-3 pointer-events-none text-md-on-surface-variant">
                       暫無可用標籤
                     </span>
                   )}
@@ -471,10 +449,7 @@ export function PromptForm({
 
                 {/* Dropdown */}
                 {isTagInputFocused && filteredTags.length > 0 && (
-                  <div
-                    className="absolute left-0 right-0 top-full mt-2 z-20 rounded-2xl shadow-lg p-2 scale-in"
-                    style={{ background: "hsl(var(--md-surface-container))" }}
-                  >
+                  <div className="absolute left-0 right-0 top-full mt-2 z-20 rounded-2xl shadow-lg p-2 scale-in bg-md-surface-container">
                     {filteredTags.map((tag, index) => (
                       <button
                         key={tag.id}
@@ -484,18 +459,11 @@ export function PromptForm({
                           setTagInput("");
                           setActiveTagIndex(0);
                         }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-label-large transition-colors ${index === activeTagIndex ? "state-layer-active" : "state-layer"
-                          }`}
-                        style={{
-                          backgroundColor:
-                            index === activeTagIndex
-                              ? "hsl(var(--md-secondary-container))"
-                              : "transparent",
-                          color:
-                            index === activeTagIndex
-                              ? "hsl(var(--md-on-secondary-container))"
-                              : "hsl(var(--md-on-surface))",
-                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-label-large transition-colors ${
+                          index === activeTagIndex
+                            ? "state-layer-active bg-md-secondary-container text-md-on-secondary-container"
+                            : "state-layer bg-transparent text-md-on-surface"
+                        }`}
                         onMouseEnter={() => setActiveTagIndex(index)}
                       >
                         <span
@@ -516,10 +484,9 @@ export function PromptForm({
             <div>
               <label
                 htmlFor="content"
-                className="block text-label-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
+                className="block text-label-large mb-2 text-md-on-surface-variant"
               >
-                內容 <span style={{ color: "hsl(var(--md-error))" }}>*</span>
+                內容 <span className="text-md-error">*</span>
               </label>
               <textarea
                 id="content"
@@ -533,19 +500,8 @@ export function PromptForm({
             </div>
 
             {variables.length > 0 && (
-              <div
-                className="p-3 rounded-2xl"
-                style={{
-                  background: "hsl(var(--md-surface-container-lowest))",
-                  border: "1px solid hsl(var(--md-outline-variant))",
-                }}
-              >
-                <p
-                  className="text-label-medium mb-2"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
-                  檢測到的變數
-                </p>
+              <div className="p-3 rounded-2xl bg-md-surface-container-lowest border border-md-outline-variant">
+                <p className="text-label-medium mb-2 text-md-on-surface-variant">檢測到的變數</p>
                 <div className="flex flex-wrap gap-2">
                   {variables.map((v) => (
                     <span key={v.key} className="tag">
@@ -558,10 +514,7 @@ export function PromptForm({
           </div>
 
           {/* Footer - Fixed at bottom */}
-          <div
-            className="pt-4 border-t shrink-0"
-            style={{ borderColor: "hsl(var(--md-outline-variant))" }}
-          >
+          <div className="pt-4 border-t shrink-0 border-md-outline-variant">
             <div className="flex gap-3">
               <button type="button" onClick={onClose} className="btn-outlined flex-1">
                 取消

@@ -26,7 +26,7 @@ export function PromptPreview({
   const [mounted, setMounted] = useState(false);
 
   const variablesList = extractVariables(content);
-  const variablesKey = variablesList.map(v => v.raw).join(",");
+  const variablesKey = variablesList.map((v) => v.raw).join(",");
 
   useEffect(() => {
     setMounted(true);
@@ -69,33 +69,16 @@ export function PromptPreview({
         {/* Content container */}
         <div className="dialog overflow-hidden p-0">
           {/* Header */}
-          <div
-            className="flex items-center justify-between p-6 border-b"
-            style={{ borderColor: "hsl(var(--md-outline-variant))" }}
-          >
+          <div className="flex items-center justify-between p-6 border-b border-md-outline-variant">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-1">
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center"
-                  style={{ background: "hsl(var(--md-primary-container))" }}
-                >
-                  <Sparkles
-                    className="w-4 h-4"
-                    style={{ color: "hsl(var(--md-on-primary-container))" }}
-                  />
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-md-primary-container">
+                  <Sparkles className="w-4 h-4 text-md-on-primary-container" />
                 </div>
-                <h2
-                  className="text-title-large truncate"
-                  style={{ color: "hsl(var(--md-on-surface))" }}
-                >
-                  {title}
-                </h2>
+                <h2 className="text-title-large truncate text-md-on-surface">{title}</h2>
               </div>
               {description && (
-                <p
-                  className="text-body-medium ml-11 truncate"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
+                <p className="text-body-medium ml-11 truncate text-md-on-surface-variant">
                   {description}
                 </p>
               )}
@@ -105,33 +88,19 @@ export function PromptPreview({
             </button>
           </div>
 
-          {/* Body - Two columns */}
-          <div
-            className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
-            style={{ borderColor: "hsl(var(--md-outline-variant))" }}
-          >
+          <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x border-md-outline-variant">
             {/* Variables Input */}
             <div className="p-6 space-y-4 max-h-[50vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-title-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
-                  填寫變數
-                </h3>
-                <span
-                  className="text-label-medium"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
+                <h3 className="text-title-medium text-md-on-surface">填寫變數</h3>
+                <span className="text-label-medium text-md-on-surface-variant">
                   {Object.values(variables).filter((v) => v.trim()).length} / {variablesList.length}
                 </span>
               </div>
 
               {variablesList.length === 0 ? (
                 <div className="py-8 text-center">
-                  <p
-                    className="text-body-medium"
-                    style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                  >
-                    此 Prompt 沒有變數
-                  </p>
+                  <p className="text-body-medium text-md-on-surface-variant">此 Prompt 沒有變數</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -139,46 +108,38 @@ export function PromptPreview({
                     <div key={v.key} className="group">
                       <label
                         htmlFor={`var-${v.key}`}
-                        className="flex items-center gap-2 text-label-large mb-1.5"
-                        style={{ color: "hsl(var(--md-on-surface-variant))" }}
+                        className="flex items-center gap-2 text-label-large mb-1.5 text-md-on-surface-variant"
                       >
                         <span
-                          className="w-5 h-5 rounded-full flex items-center justify-center text-label-medium"
-                          style={{
-                            backgroundColor: variables[v.key]?.trim()
-                              ? "hsl(120 60% 50% / 0.15)"
-                              : "hsl(var(--md-primary) / 0.15)",
-                            color: variables[v.key]?.trim()
-                              ? "hsl(120 60% 40%)"
-                              : "hsl(var(--md-primary))",
-                          }}
+                          className={`w-5 h-5 rounded-full flex items-center justify-center text-label-medium ${variables[v.key]?.trim() ? "bg-[hsl(120_60%_50%/0.15)] text-[hsl(120_60%_40%)]" : "bg-md-primary/15 text-md-primary"}`}
                         >
                           {index + 1}
                         </span>
-                        <code style={{ color: "hsl(var(--md-primary))" }}>{v.key}</code>
+                        <code className="text-md-primary">{v.key}</code>
                       </label>
 
                       {v.options.length > 0 ? (
                         <select
                           id={`var-${v.key}`}
                           value={variables[v.key] || ""}
-                          onChange={(e) => setVariables((prev) => ({ ...prev, [v.key]: e.target.value }))}
+                          onChange={(e) =>
+                            setVariables((prev) => ({ ...prev, [v.key]: e.target.value }))
+                          }
                           onFocus={() => setActiveField(v.key)}
                           onBlur={() => setActiveField(null)}
-                          className="input transition-all duration-200"
-                          style={{
-                            borderColor:
-                              activeField === v.key
-                                ? "hsl(var(--md-primary))"
-                                : variables[v.key]?.trim()
-                                  ? "hsl(120 60% 50% / 0.5)"
-                                  : undefined,
-                            borderBottomWidth: activeField === v.key ? "2px" : undefined,
-                          }}
+                          className={`input transition-all duration-200 ${activeField === v.key ? "border-md-primary border-b-2" : variables[v.key]?.trim() ? "border-[hsl(120_60%_50%/0.5)] border-b-2" : ""}`}
                         >
-                          <option value="" disabled style={{ backgroundColor: "hsl(var(--md-surface-container-highest))" }}>請選擇...</option>
-                          {v.options.map(opt => (
-                            <option key={opt} value={opt} style={{ backgroundColor: "hsl(var(--md-surface-container-highest))" }}>{opt}</option>
+                          <option value="" disabled className="bg-md-surface-container-highest">
+                            請選擇...
+                          </option>
+                          {v.options.map((opt) => (
+                            <option
+                              key={opt}
+                              value={opt}
+                              className="bg-md-surface-container-highest"
+                            >
+                              {opt}
+                            </option>
                           ))}
                         </select>
                       ) : (
@@ -186,20 +147,13 @@ export function PromptPreview({
                           id={`var-${v.key}`}
                           type="text"
                           value={variables[v.key] || ""}
-                          onChange={(e) => setVariables((prev) => ({ ...prev, [v.key]: e.target.value }))}
+                          onChange={(e) =>
+                            setVariables((prev) => ({ ...prev, [v.key]: e.target.value }))
+                          }
                           onFocus={() => setActiveField(v.key)}
                           onBlur={() => setActiveField(null)}
                           placeholder={`輸入 ${v.key} 的值...`}
-                          className="input transition-all duration-200"
-                          style={{
-                            borderColor:
-                              activeField === v.key
-                                ? "hsl(var(--md-primary))"
-                                : variables[v.key]?.trim()
-                                  ? "hsl(120 60% 50% / 0.5)"
-                                  : undefined,
-                            borderBottomWidth: activeField === v.key ? "2px" : undefined,
-                          }}
+                          className={`input transition-all duration-200 ${activeField === v.key ? "border-md-primary border-b-2" : variables[v.key]?.trim() ? "border-[hsl(120_60%_50%/0.5)] border-b-2" : ""}`}
                         />
                       )}
                     </div>
@@ -211,17 +165,9 @@ export function PromptPreview({
             {/* Preview Output */}
             <div className="p-6 flex flex-col max-h-[50vh]">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-title-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
-                  預覽結果
-                </h3>
+                <h3 className="text-title-medium text-md-on-surface">預覽結果</h3>
                 {allFilled && (
-                  <span
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-medium"
-                    style={{
-                      background: "hsl(120 60% 50% / 0.15)",
-                      color: "hsl(120 60% 40%)",
-                    }}
-                  >
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-medium bg-[hsl(120_60%_50%/0.15)] text-[hsl(120_60%_40%)]">
                     <Check className="w-3 h-3" />
                     已填寫完成
                   </span>
@@ -244,11 +190,7 @@ export function PromptPreview({
                         return (
                           <span
                             key={`filled-${key}-${part}`}
-                            className="px-1.5 py-0.5 rounded-lg font-medium"
-                            style={{
-                              background: "hsl(120 60% 50% / 0.15)",
-                              color: "hsl(120 60% 40%)",
-                            }}
+                            className="px-1.5 py-0.5 rounded-lg font-medium bg-[hsl(120_60%_50%/0.15)] text-[hsl(120_60%_40%)]"
                           >
                             {value}
                           </span>
@@ -257,12 +199,7 @@ export function PromptPreview({
                       return (
                         <span
                           key={`empty-${key}-${part}`}
-                          className="px-1.5 py-0.5 rounded-lg"
-                          style={{
-                            background: "hsl(var(--md-primary) / 0.15)",
-                            color: "hsl(var(--md-primary))",
-                            border: "1px dashed hsl(var(--md-primary) / 0.3)",
-                          }}
+                          className="px-1.5 py-0.5 rounded-lg bg-md-primary/15 text-md-primary border border-dashed border-md-primary/30"
                         >
                           {`{{${raw}}}`}
                         </span>
@@ -276,17 +213,14 @@ export function PromptPreview({
           </div>
 
           {/* Footer */}
-          <div
-            className="flex items-center justify-between gap-4 p-6 border-t"
-            style={{ borderColor: "hsl(var(--md-outline-variant))" }}
-          >
-            <p className="text-label-medium" style={{ color: "hsl(var(--md-on-surface-variant))" }}>
+          <div className="flex items-center justify-between gap-4 p-6 border-t border-md-outline-variant">
+            <p className="text-label-medium text-md-on-surface-variant">
               {allFilled ? (
                 "所有變數已填寫，可以複製使用"
               ) : (
                 <>
                   還有{" "}
-                  <span style={{ color: "hsl(var(--md-primary))" }}>
+                  <span className="text-md-primary">
                     {variablesList.length - Object.values(variables).filter((v) => v.trim()).length}
                   </span>{" "}
                   個變數未填寫
@@ -300,14 +234,7 @@ export function PromptPreview({
               <button
                 type="button"
                 onClick={handleCopy}
-                className="btn-primary flex items-center gap-2"
-                style={
-                  copied
-                    ? {
-                      background: "hsl(120 60% 45%)",
-                    }
-                    : undefined
-                }
+                className={`btn-primary flex items-center gap-2 ${copied ? "bg-[hsl(120_60%_45%)]" : ""}`}
               >
                 {copied ? (
                   <>

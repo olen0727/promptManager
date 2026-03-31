@@ -122,7 +122,11 @@ export const promptRouter = router({
         image_url: imageUrl || null,
         user_id: ctx.user.id,
         user_email: ctx.user.email,
-        user_name: ctx.user.user_metadata.full_name || ctx.user.user_metadata.name || ctx.user.email?.split("@")[0] || "Unknown",
+        user_name:
+          ctx.user.user_metadata.full_name ||
+          ctx.user.user_metadata.name ||
+          ctx.user.email?.split("@")[0] ||
+          "Unknown",
         is_public: isPublic,
       })
       .select()

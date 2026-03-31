@@ -62,28 +62,15 @@ export function ConfirmDialog({
       <div className="dialog relative w-full max-w-md mx-4 scale-in">
         <div className="flex items-start gap-4">
           <div
-            className="p-3 rounded-xl"
-            style={{
-              background: isDanger ? "hsl(var(--md-error) / 0.15)" : "hsl(45 100% 50% / 0.15)",
-            }}
+            className={`p-3 rounded-xl ${isDanger ? "bg-md-error/15" : "bg-[hsl(45_100%_50%/0.15)]"}`}
           >
             <AlertTriangle
-              className="w-5 h-5"
-              style={{
-                color: isDanger ? "hsl(var(--md-error))" : "hsl(45 100% 40%)",
-              }}
+              className={`w-5 h-5 ${isDanger ? "text-md-error" : "text-[hsl(45_100%_40%)]"}`}
             />
           </div>
           <div className="flex-1">
-            <h3 className="text-title-large mb-2" style={{ color: "hsl(var(--md-on-surface))" }}>
-              {title}
-            </h3>
-            <p
-              className="text-body-medium leading-relaxed"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
-              {message}
-            </p>
+            <h3 className="text-title-large mb-2 text-md-on-surface">{title}</h3>
+            <p className="text-body-medium leading-relaxed text-md-on-surface-variant">{message}</p>
           </div>
         </div>
 
@@ -95,11 +82,7 @@ export function ConfirmDialog({
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
-            className="flex-1 py-3 font-medium text-label-large rounded-full transition-all duration-200"
-            style={{
-              background: isDanger ? "hsl(var(--md-error))" : "hsl(45 100% 45%)",
-              color: isDanger ? "hsl(var(--md-on-error))" : "hsl(45 100% 10%)",
-            }}
+            className={`flex-1 py-3 font-medium text-label-large rounded-full transition-all duration-200 ${isDanger ? "bg-md-error text-md-on-error" : "bg-[hsl(45_100%_45%)] text-[hsl(45_100%_10%)]"}`}
           >
             {confirmText}
           </button>

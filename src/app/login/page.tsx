@@ -54,14 +54,8 @@ export default function LoginPage() {
     <div className="min-h-screen grid lg:grid-cols-2 relative overflow-hidden">
       {/* MD3 Background - Subtle gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-primary) / 0.15)" }}
-        />
-        <div
-          className="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-tertiary) / 0.1)" }}
-        />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[120px] bg-md-primary/15" />
+        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full blur-[120px] bg-md-tertiary/10" />
       </div>
 
       {/* Left Panel - Brand & Visual */}
@@ -80,22 +74,11 @@ export default function LoginPage() {
           <h1
             className={`transition-all duration-500 delay-200 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <span
-              className="text-display-large block"
-              style={{ color: "hsl(var(--md-on-surface))" }}
-            >
-              儲存
-            </span>
-            <span
-              className="text-display-large block font-medium"
-              style={{ color: "hsl(var(--md-primary))" }}
-            >
-              您的靈感
-            </span>
+            <span className="text-display-large block text-md-on-surface">儲存</span>
+            <span className="text-display-large block font-medium text-md-primary">您的靈感</span>
           </h1>
           <p
-            className={`max-w-md text-body-large leading-relaxed transition-all duration-500 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-            style={{ color: "hsl(var(--md-on-surface-variant))" }}
+            className={`max-w-md text-body-large leading-relaxed transition-all duration-500 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} text-md-on-surface-variant`}
           >
             將您精心打磨的 AI Prompt 安全儲存，隨時調用，讓創意永不流失。
           </p>
@@ -106,22 +89,13 @@ export default function LoginPage() {
           className={`relative z-10 flex items-center gap-8 transition-all duration-500 delay-500 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
           <div className="flex items-center gap-3">
-            <div
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={{ background: "hsl(120 60% 50%)" }}
-            />
-            <span
-              className="text-label-medium tracking-wide"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
+            <div className="w-2 h-2 rounded-full animate-pulse bg-[hsl(120_60%_50%)]" />
+            <span className="text-label-medium tracking-wide text-md-on-surface-variant">
               系統連線中
             </span>
           </div>
           <div className="divider w-px h-4" />
-          <span
-            className="text-label-medium tracking-wide font-mono"
-            style={{ color: "hsl(var(--md-on-surface-variant))" }}
-          >
+          <span className="text-label-medium tracking-wide font-mono text-md-on-surface-variant">
             v0.1.0
           </span>
         </div>
@@ -136,16 +110,10 @@ export default function LoginPage() {
           <div className="card p-8 lg:p-10">
             {/* Mobile logo */}
             <div className="lg:hidden text-center mb-10">
-              <h1
-                className="text-headline-large mb-2"
-                style={{ color: "hsl(var(--md-on-surface))" }}
-              >
-                Prompt<span style={{ color: "hsl(var(--md-primary))" }}>Manager</span>
+              <h1 className="text-headline-large mb-2 text-md-on-surface">
+                Prompt<span className="text-md-primary">Manager</span>
               </h1>
-              <p
-                className="text-body-medium"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <p className="text-body-medium text-md-on-surface-variant">
                 儲存、組織、複用您的 AI Prompt
               </p>
             </div>
@@ -153,15 +121,8 @@ export default function LoginPage() {
             {/* Form content */}
             <div className="space-y-8">
               <div className="space-y-2 text-center lg:text-left">
-                <h2 className="text-headline-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
-                  歡迎回來
-                </h2>
-                <p
-                  className="text-body-medium"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
-                  使用 GitHub 帳號繼續
-                </p>
+                <h2 className="text-headline-medium text-md-on-surface">歡迎回來</h2>
+                <p className="text-body-medium text-md-on-surface-variant">使用 GitHub 帳號繼續</p>
               </div>
 
               {/* Google Login Button */}
@@ -232,10 +193,7 @@ export default function LoginPage() {
               {/* Divider - MD3 Style */}
               <div className="flex items-center gap-4">
                 <div className="flex-1 divider" />
-                <span
-                  className="text-label-medium tracking-[0.15em] uppercase"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
+                <span className="text-label-medium tracking-[0.15em] uppercase text-md-on-surface-variant">
                   安全加密
                 </span>
                 <div className="flex-1 divider" />

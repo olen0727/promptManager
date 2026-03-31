@@ -31,26 +31,26 @@
     --md-error-container: 0 100% 90%;
     --md-on-error-container: 0 75% 10%;
 
-    /* Surface (Dark Theme) */
-    --md-surface: 270 15% 10%;
-    --md-surface-dim: 270 15% 6%;
-    --md-surface-bright: 270 15% 20%;
-    --md-surface-container-lowest: 270 15% 4%;
-    --md-surface-container-low: 270 15% 12%;
-    --md-surface-container: 270 15% 14%;
-    --md-surface-container-high: 270 15% 18%;
-    --md-surface-container-highest: 270 15% 22%;
+    /* Surface (Light Theme) */
+    --md-surface: 270 20% 99%;
+    --md-surface-dim: 270 20% 95%;
+    --md-surface-bright: 270 20% 99%;
+    --md-surface-container-lowest: 0 0% 100%;
+    --md-surface-container-low: 270 20% 97%;
+    --md-surface-container: 270 20% 95%;
+    --md-surface-container-high: 270 20% 93%;
+    --md-surface-container-highest: 270 20% 90%;
 
     /* On Surface */
-    --md-on-surface: 270 10% 90%;
-    --md-on-surface-variant: 270 10% 70%;
-    --md-outline: 270 10% 45%;
-    --md-outline-variant: 270 10% 30%;
+    --md-on-surface: 270 10% 10%;
+    --md-on-surface-variant: 270 10% 30%;
+    --md-outline: 270 10% 50%;
+    --md-outline-variant: 270 10% 80%;
 
     /* Inverse */
-    --md-inverse-surface: 270 10% 90%;
-    --md-inverse-on-surface: 270 15% 20%;
-    --md-inverse-primary: 270 100% 40%;
+    --md-inverse-surface: 270 20% 20%;
+    --md-inverse-on-surface: 270 20% 95%;
+    --md-inverse-primary: 270 100% 80%;
 
     /* Shadow */
     --md-shadow: 0 0% 0%;
@@ -150,7 +150,6 @@
 }
 
 @layer components {
-
   /* MD3 Card - Elevated */
   .card {
     @apply relative rounded-3xl;
@@ -344,7 +343,7 @@
     /* color: hsl(var(--md-primary)); */
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px
+    border-radius: 12px;
   }
 
   /* MD3 Code Block */
@@ -479,7 +478,6 @@
 }
 
 @layer utilities {
-
   /* Fade in animation */
   .animate-fade-in {
     animation: fadeIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
@@ -532,53 +530,55 @@
   }
 
   /* MD3 Stagger animation */
-  .stagger-children>* {
+  .stagger-children > * {
     opacity: 0;
     animation: fadeIn 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
   }
 
-  .stagger-children>*:nth-child(1) {
+  .stagger-children > *:nth-child(1) {
     animation-delay: 0.05s;
   }
 
-  .stagger-children>*:nth-child(2) {
+  .stagger-children > *:nth-child(2) {
     animation-delay: 0.1s;
   }
 
-  .stagger-children>*:nth-child(3) {
+  .stagger-children > *:nth-child(3) {
     animation-delay: 0.15s;
   }
 
-  .stagger-children>*:nth-child(4) {
+  .stagger-children > *:nth-child(4) {
     animation-delay: 0.2s;
   }
 
-  .stagger-children>*:nth-child(5) {
+  .stagger-children > *:nth-child(5) {
     animation-delay: 0.25s;
   }
 
-  .stagger-children>*:nth-child(6) {
+  .stagger-children > *:nth-child(6) {
     animation-delay: 0.3s;
   }
 
-  .stagger-children>*:nth-child(7) {
+  .stagger-children > *:nth-child(7) {
     animation-delay: 0.35s;
   }
 
-  .stagger-children>*:nth-child(8) {
+  .stagger-children > *:nth-child(8) {
     animation-delay: 0.4s;
   }
 
-  .stagger-children>*:nth-child(9) {
+  .stagger-children > *:nth-child(9) {
     animation-delay: 0.45s;
   }
 
   /* Skeleton loading */
   .skeleton {
-    background: linear-gradient(90deg,
-        hsl(var(--md-surface-container)) 0%,
-        hsl(var(--md-surface-container-high)) 50%,
-        hsl(var(--md-surface-container)) 100%);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--md-surface-container)) 0%,
+      hsl(var(--md-surface-container-high)) 50%,
+      hsl(var(--md-surface-container)) 100%
+    );
     background-size: 200% 100%;
     animation: skeleton 1.5s ease-in-out infinite;
   }
@@ -636,8 +636,6 @@
     box-shadow: 0 1px 2px hsl(var(--md-shadow) / 0.3), 0 8px 12px 6px hsl(var(--md-shadow) / 0.15);
   }
 }
-
-
 
 @layer base {
   * {

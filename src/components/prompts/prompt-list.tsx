@@ -1,11 +1,7 @@
 "use client";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useTRPC } from "@/server/trpc/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Compass, LayoutGrid, Palette, Plus, Search, Trash2 } from "lucide-react";
@@ -70,28 +66,18 @@ const TagItem = ({
       <button
         type="button"
         onClick={() => onSelect(isSelected ? null : tag.id)}
-        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${isSelected ? "chip-selected pr-20" : ""
-          }`}
-        style={{
-          color: isSelected
-            ? "hsl(var(--md-on-secondary-container))"
-            : "hsl(var(--md-on-surface-variant))",
-          backgroundColor: isSelected
-            ? "hsl(var(--md-primary))"
-            : "hsl(var(--md-surface-variant))",
-        }}
+        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${
+          isSelected
+            ? "chip-selected pr-20 bg-md-primary text-md-on-secondary-container"
+            : "bg-md-surface-variant text-md-on-surface-variant"
+        }`}
       >
         <span
           className="w-2.5 h-2.5 rounded-full shrink-0 transition-colors duration-200"
           style={{ backgroundColor: isOpen ? tempColor : tag.color }}
         />
         <span className="truncate flex-1 text-left">{tag.name}</span>
-        {isSelected && (
-          <span
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: "hsl(var(--md-primary))" }}
-          />
-        )}
+        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-md-primary" />}
       </button>
 
       {/* Tag Actions - Only visible when selected and hovered */}
@@ -114,8 +100,11 @@ const TagItem = ({
                   <button
                     key={color}
                     type="button"
-                    className={`w-8 h-8 rounded-full border transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${tempColor === color ? "border-black/40 scale-110 ring-2 ring-offset-1 ring-black/10" : "border-black/5"
-                      }`}
+                    className={`w-8 h-8 rounded-full border transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                      tempColor === color
+                        ? "border-black/40 scale-110 ring-2 ring-offset-1 ring-black/10"
+                        : "border-black/5"
+                    }`}
                     style={{ backgroundColor: color }}
                     onClick={() => setTempColor(color)}
                   />
@@ -278,9 +267,9 @@ export function PromptList() {
       try {
         // Create tags sequentially to avoid potential race conditions if backend doesn't handle parallel inserts well
         // or just map promise.all
-        const newTagsPromises = data.newTags.map(name => createTagMutation.mutateAsync({ name }));
+        const newTagsPromises = data.newTags.map((name) => createTagMutation.mutateAsync({ name }));
         const createdTags = await Promise.all(newTagsPromises);
-        const newTagIds = createdTags.map(t => t.id);
+        const newTagIds = createdTags.map((t) => t.id);
         finalTagIds = [...finalTagIds, ...newTagIds];
       } catch (error) {
         toast.error("部分新標籤建立失敗");
@@ -312,9 +301,9 @@ export function PromptList() {
     // Process new tags if any
     if (data.newTags && data.newTags.length > 0) {
       try {
-        const newTagsPromises = data.newTags.map(name => createTagMutation.mutateAsync({ name }));
+        const newTagsPromises = data.newTags.map((name) => createTagMutation.mutateAsync({ name }));
         const createdTags = await Promise.all(newTagsPromises);
-        const newTagIds = createdTags.map(t => t.id);
+        const newTagIds = createdTags.map((t) => t.id);
         finalTagIds = [...finalTagIds, ...newTagIds];
       } catch (error) {
         toast.error("部分新標籤建立失敗");
@@ -394,23 +383,18 @@ export function PromptList() {
         {/* Sidebar (Desktop) - MD3 Navigation Drawer */}
         <aside className="hidden lg:block space-y-8 sticky top-24">
           <div className="card p-4 space-y-4">
-            <h3
-              className="px-3 text-label-medium uppercase tracking-wider"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
+            <h3 className="px-3 text-label-medium uppercase tracking-wider text-md-on-surface-variant">
               Library
             </h3>
             <div className="space-y-1">
               <button
                 type="button"
                 onClick={() => setSelectedTagId(null)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${!selectedTagId ? "chip-selected" : ""
-                  }`}
-                style={{
-                  color: !selectedTagId
-                    ? "hsl(var(--md-on-secondary-container))"
-                    : "hsl(var(--md-on-surface-variant))",
-                }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-full text-label-large transition-all duration-200 state-layer ${
+                  !selectedTagId
+                    ? "chip-selected text-md-on-secondary-container"
+                    : "text-md-on-surface-variant"
+                }`}
               >
                 <Compass className="w-4 h-4" />
                 全部 Prompts
@@ -420,10 +404,7 @@ export function PromptList() {
 
           <div className="card p-4 space-y-4">
             <div className="flex items-center justify-between px-3">
-              <h3
-                className="text-label-medium uppercase tracking-wider"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <h3 className="text-label-medium uppercase tracking-wider text-md-on-surface-variant">
                 Tags
               </h3>
               <button
@@ -476,9 +457,7 @@ export function PromptList() {
         {/* Mobile Filter Header */}
         <div className="lg:hidden flex flex-col gap-4 mb-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-headline-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
-              Prompts
-            </h2>
+            <h2 className="text-headline-medium text-md-on-surface">Prompts</h2>
             <button
               type="button"
               onClick={() => setIsFormOpen(true)}
@@ -516,10 +495,7 @@ export function PromptList() {
           {/* Top Bar */}
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="relative w-full sm:max-w-md">
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-md-on-surface-variant" />
               {/* <input
                 type="text"
                 value={search}
@@ -544,22 +520,13 @@ export function PromptList() {
             <PromptSkeletonGrid />
           ) : prompts.length === 0 ? (
             <div className="card flex flex-col items-center justify-center py-20 text-center">
-              <div
-                className="w-16 h-16 mb-4 rounded-2xl flex items-center justify-center"
-                style={{ background: "hsl(var(--md-surface-container-high))" }}
-              >
-                <LayoutGrid
-                  className="w-8 h-8"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                />
+              <div className="w-16 h-16 mb-4 rounded-2xl flex items-center justify-center bg-md-surface-container-high">
+                <LayoutGrid className="w-8 h-8 text-md-on-surface-variant" />
               </div>
-              <h3 className="text-title-large mb-2" style={{ color: "hsl(var(--md-on-surface))" }}>
+              <h3 className="text-title-large mb-2 text-md-on-surface">
                 {search ? "未找到相關結果" : "暫無 Prompt"}
               </h3>
-              <p
-                className="text-body-medium max-w-xs mb-6"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <p className="text-body-medium max-w-xs mb-6 text-md-on-surface-variant">
                 {search ? "嘗試更換搜尋關鍵詞" : "建立一個新的 Prompt 開始您的創作之旅"}
               </p>
               {!search && (

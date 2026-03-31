@@ -67,14 +67,8 @@ export default function Home() {
     <div className="min-h-screen relative overflow-hidden">
       {/* MD3 Background - Subtle gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-primary) / 0.15)" }}
-        />
-        <div
-          className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-tertiary) / 0.1)" }}
-        />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[120px] bg-md-primary/15" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full blur-[120px] bg-md-tertiary/10" />
       </div>
 
       {/* Navigation - MD3 Top App Bar */}
@@ -84,8 +78,8 @@ export default function Home() {
             <div
               className={`flex items-center gap-3 transition-all duration-500 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
             >
-              <span className="text-title-large" style={{ color: "hsl(var(--md-on-surface))" }}>
-                Prompt<span style={{ color: "hsl(var(--md-primary))" }}>Manger</span>
+              <span className="text-title-large text-md-on-surface">
+                Prompt<span className="text-md-primary">Manger</span>
               </span>
             </div>
             <div
@@ -102,30 +96,17 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative z-10 flex flex-col items-center justify-center pt-32 pb-24 px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
-
-
           {/* Main Title - MD3 Display */}
           <h1
             className={`mb-6 transition-all duration-500 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <span
-              className="text-display-medium block"
-              style={{ color: "hsl(var(--md-on-surface))" }}
-            >
-              AI Prompt
-            </span>
-            <span
-              className="text-display-medium block font-medium"
-              style={{ color: "hsl(var(--md-primary))" }}
-            >
-              管理器
-            </span>
+            <span className="text-display-medium block text-md-on-surface">AI Prompt</span>
+            <span className="text-display-medium block font-medium text-md-primary">管理器</span>
           </h1>
 
           {/* Subtitle - MD3 Body */}
           <p
-            className={`text-body-large max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-500 delay-400 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-            style={{ color: "hsl(var(--md-on-surface-variant))" }}
+            className={`text-body-large max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-500 delay-400 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} text-md-on-surface-variant`}
           >
             管理、複用 AI Prompt
             <br className="hidden sm:block" />
@@ -150,10 +131,10 @@ export default function Home() {
           <div
             className={`text-center mb-16 transition-all duration-500 delay-600 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <h2 className="text-headline-large mb-4" style={{ color: "hsl(var(--md-on-surface))" }}>
-              核心<span style={{ color: "hsl(var(--md-primary))" }}>功能</span>
+            <h2 className="text-headline-large mb-4 text-md-on-surface">
+              核心<span className="text-md-primary">功能</span>
             </h2>
-            <p className="text-body-large" style={{ color: "hsl(var(--md-on-surface-variant))" }}>
+            <p className="text-body-large text-md-on-surface-variant">
               簡潔而強大的功能設計，讓您專注於創作
             </p>
           </div>
@@ -163,63 +144,33 @@ export default function Home() {
           >
             {/* Feature Card 1 */}
             <div className="card p-6">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "hsl(var(--md-primary-container))" }}
-              >
-                <Zap className="w-6 h-6" style={{ color: "hsl(var(--md-on-primary-container))" }} />
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-md-primary-container">
+                <Zap className="w-6 h-6 text-md-on-primary-container" />
               </div>
-              <h3 className="text-title-medium mb-2" style={{ color: "hsl(var(--md-on-surface))" }}>
-                變數範本
-              </h3>
-              <p
-                className="text-body-medium"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <h3 className="text-title-medium mb-2 text-md-on-surface">變數範本</h3>
+              <p className="text-body-medium text-md-on-surface-variant">
                 使用 {"{{變數}}"} 語法，一鍵替換內容，複用 Prompt 更高效
               </p>
             </div>
 
             {/* Feature Card 2 */}
             <div className="card p-6">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "hsl(var(--md-secondary-container))" }}
-              >
-                <Sparkles
-                  className="w-6 h-6"
-                  style={{ color: "hsl(var(--md-on-secondary-container))" }}
-                />
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-md-secondary-container">
+                <Sparkles className="w-6 h-6 text-md-on-secondary-container" />
               </div>
-              <h3 className="text-title-medium mb-2" style={{ color: "hsl(var(--md-on-surface))" }}>
-                智慧分類
-              </h3>
-              <p
-                className="text-body-medium"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <h3 className="text-title-medium mb-2 text-md-on-surface">智慧分類</h3>
+              <p className="text-body-medium text-md-on-surface-variant">
                 標籤管理，快速檢索，讓您的 Prompt 庫井井有條
               </p>
             </div>
 
             {/* Feature Card 3 */}
             <div className="card p-6">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "hsl(var(--md-tertiary-container))" }}
-              >
-                <Lock
-                  className="w-6 h-6"
-                  style={{ color: "hsl(var(--md-on-tertiary-container))" }}
-                />
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-md-tertiary-container">
+                <Lock className="w-6 h-6 text-md-on-tertiary-container" />
               </div>
-              <h3 className="text-title-medium mb-2" style={{ color: "hsl(var(--md-on-surface))" }}>
-                安全儲存
-              </h3>
-              <p
-                className="text-body-medium"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
+              <h3 className="text-title-medium mb-2 text-md-on-surface">安全儲存</h3>
+              <p className="text-body-medium text-md-on-surface-variant">
                 資料加密，隱私優先，雲端同步，隨時隨地存取
               </p>
             </div>
@@ -234,13 +185,13 @@ export default function Home() {
             className={`text-center mb-16 transition-all duration-500 delay-800 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             <div className="chip mb-6">
-              <Code2 className="w-4 h-4" style={{ color: "hsl(var(--md-primary))" }} />
+              <Code2 className="w-4 h-4 text-md-primary" />
               <span>Built with Modern Stack</span>
             </div>
-            <h2 className="text-headline-large mb-4" style={{ color: "hsl(var(--md-on-surface))" }}>
-              Tech<span style={{ color: "hsl(var(--md-primary))" }}>Stack</span>
+            <h2 className="text-headline-large mb-4 text-md-on-surface">
+              Tech<span className="text-md-primary">Stack</span>
             </h2>
-            <p className="text-body-large" style={{ color: "hsl(var(--md-on-surface-variant))" }}>
+            <p className="text-body-large text-md-on-surface-variant">
               採用最新的開源技術構建，注重效能、型別安全與開發體驗
             </p>
           </div>
@@ -251,29 +202,16 @@ export default function Home() {
             {techStack.map((stack) => (
               <div key={stack.category} className="card p-6">
                 <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: "hsl(var(--md-surface-container-high))" }}
-                  >
-                    <span style={{ color: "hsl(var(--md-primary))" }}>{stack.icon}</span>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-md-surface-container-high">
+                    <span className="text-md-primary">{stack.icon}</span>
                   </div>
-                  <h3 className="text-title-medium" style={{ color: "hsl(var(--md-on-surface))" }}>
-                    {stack.category}
-                  </h3>
+                  <h3 className="text-title-medium text-md-on-surface">{stack.category}</h3>
                 </div>
                 <div className="space-y-3">
                   {stack.items.map((item) => (
                     <div key={item.name} className="flex flex-col">
-                      <span
-                        className="text-label-large"
-                        style={{ color: "hsl(var(--md-on-surface))" }}
-                      >
-                        {item.name}
-                      </span>
-                      <span
-                        className="text-label-medium"
-                        style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                      >
+                      <span className="text-label-large text-md-on-surface">{item.name}</span>
+                      <span className="text-label-medium text-md-on-surface-variant">
                         {item.desc}
                       </span>
                     </div>
@@ -302,16 +240,10 @@ export default function Home() {
           <div
             className={`card-filled p-12 transition-all duration-500 delay-1100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <h2
-              className="text-headline-medium mb-4"
-              style={{ color: "hsl(var(--md-on-surface))" }}
-            >
-              準備好<span style={{ color: "hsl(var(--md-primary))" }}>開始</span>了嗎？
+            <h2 className="text-headline-medium mb-4 text-md-on-surface">
+              準備好<span className="text-md-primary">開始</span>了嗎？
             </h2>
-            <p
-              className="text-body-large mb-8 max-w-md mx-auto"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
+            <p className="text-body-large mb-8 max-w-md mx-auto text-md-on-surface-variant">
               使用 GitHub 帳號一鍵登入，開始建構您的 Prompt 倉庫
             </p>
             <a href="/login" className="btn-primary inline-flex items-center gap-2 py-4 px-8">
@@ -323,34 +255,18 @@ export default function Home() {
       </section>
 
       {/* Footer - MD3 Style */}
-      <footer
-        className="relative z-10 mt-auto"
-        style={{ background: "hsl(var(--md-surface-container))" }}
-      >
+      <footer className="relative z-10 mt-auto bg-md-surface-container">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 py-6">
           <div
             className={`flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-500 delay-1200 ${mounted ? "opacity-100" : "opacity-0"}`}
           >
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <div
-                  className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ background: "hsl(120 60% 50%)" }}
-                />
-                <span
-                  className="text-label-medium"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
-                  系統連線中
-                </span>
+                <div className="w-2 h-2 rounded-full animate-pulse bg-[hsl(120_60%_50%)]" />
+                <span className="text-label-medium text-md-on-surface-variant">系統連線中</span>
               </div>
               <div className="divider w-px h-4" />
-              <span
-                className="text-label-medium font-mono"
-                style={{ color: "hsl(var(--md-on-surface-variant))" }}
-              >
-                v0.5.0
-              </span>
+              <span className="text-label-medium font-mono text-md-on-surface-variant">v0.5.0</span>
             </div>
             {/* <div className="flex items-center gap-6">
               <a href="/terms" className="btn-text text-label-medium">

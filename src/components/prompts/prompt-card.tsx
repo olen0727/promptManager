@@ -46,16 +46,9 @@ export function PromptCard({
 
   return (
     <div className="card p-6 relative overflow-hidden">
-
-
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
-        <h3
-          className="text-title-medium truncate flex-1 mr-3"
-          style={{ color: "hsl(var(--md-on-surface))" }}
-        >
-          {title}
-        </h3>
+        <h3 className="text-title-medium truncate flex-1 mr-3 text-md-on-surface">{title}</h3>
         <div className="flex items-center gap-1">
           {/* Menu */}
           <div className="relative">
@@ -70,18 +63,14 @@ export function PromptCard({
               <>
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click handler */}
                 <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-                <div
-                  className="absolute right-0 top-10 z-20 rounded-2xl shadow-lg py-2 min-w-[140px] scale-in"
-                  style={{ background: "hsl(var(--md-surface-container))" }}
-                >
+                <div className="absolute right-0 top-10 z-20 rounded-2xl shadow-lg py-2 min-w-[140px] scale-in bg-md-surface-container">
                   <button
                     type="button"
                     onClick={() => {
                       onEdit(id);
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 text-label-large state-layer"
-                    style={{ color: "hsl(var(--md-on-surface))" }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-label-large state-layer text-md-on-surface"
                   >
                     <Edit className="w-4 h-4" />
                     編輯
@@ -93,8 +82,7 @@ export function PromptCard({
                       onDelete(id);
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 text-label-large state-layer"
-                    style={{ color: "hsl(var(--md-error))" }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-label-large state-layer text-md-error"
                   >
                     <Trash2 className="w-4 h-4" />
                     刪除
@@ -108,10 +96,7 @@ export function PromptCard({
 
       {/* Description */}
       {description && (
-        <p
-          className="text-body-medium mb-4 line-clamp-2 leading-relaxed"
-          style={{ color: "hsl(var(--md-on-surface-variant))" }}
-        >
+        <p className="text-body-medium mb-4 line-clamp-2 leading-relaxed text-md-on-surface-variant">
           {description}
         </p>
       )}
@@ -120,73 +105,43 @@ export function PromptCard({
 
       {imageUrl ? (
         <div className="image-block mb-4 max-h-32 overflow-hidden relative">
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-32 object-cover object-center"
-          />
+          <img src={imageUrl} alt={title} className="w-full h-32 object-cover object-center" />
         </div>
       ) : (
         <>
           <div className="code-block mb-4 max-h-32 overflow-hidden relative">
-            <pre
-              className="text-body-medium whitespace-pre-wrap line-clamp-4"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
+            <pre className="text-body-medium whitespace-pre-wrap line-clamp-4 text-md-on-surface-variant">
               {content}
             </pre>
             {/* Fade out gradient */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-8"
-              style={{
-                background:
-                  "linear-gradient(to top, hsl(var(--md-surface-container-lowest)), transparent)",
-              }}
-            />
+            <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-md-surface-container-lowest to-transparent" />
           </div>
         </>
       )}
 
       {/* Variables indicator */}
-      {
-        variables.length > 0 && (
-          <div
-            className="flex items-center gap-2 mb-4 p-3 rounded-2xl"
-            style={{
-              background: "hsl(var(--md-primary) / 0.08)",
-              border: "1px solid hsl(var(--md-primary) / 0.2)",
-            }}
-          >
-            <Sparkles className="w-3.5 h-3.5" style={{ color: "hsl(var(--md-primary))" }} />
-            <span className="text-label-medium" style={{ color: "hsl(var(--md-primary))" }}>
-              {variables.length} 個變數
-            </span>
-            <div className="flex-1" />
-            <div className="flex gap-1.5">
-              {variables.slice(0, 2).map((v) => (
-                <code
-                  key={v.key}
-                  className="text-label-medium px-1.5 py-0.5 rounded-lg"
-                  style={{
-                    background: "hsl(var(--md-primary) / 0.12)",
-                    color: "hsl(var(--md-primary))",
-                  }}
-                >
-                  {v.key}
-                </code>
-              ))}
-              {variables.length > 2 && (
-                <span
-                  className="text-label-medium"
-                  style={{ color: "hsl(var(--md-on-surface-variant))" }}
-                >
-                  +{variables.length - 2}
-                </span>
-              )}
-            </div>
+      {variables.length > 0 && (
+        <div className="flex items-center gap-2 mb-4 p-3 rounded-2xl bg-md-primary/10 border border-md-primary/20">
+          <Sparkles className="w-3.5 h-3.5 text-md-primary" />
+          <span className="text-label-medium text-md-primary">{variables.length} 個變數</span>
+          <div className="flex-1" />
+          <div className="flex gap-1.5">
+            {variables.slice(0, 2).map((v) => (
+              <code
+                key={v.key}
+                className="text-label-medium px-1.5 py-0.5 rounded-lg bg-md-primary/15 text-md-primary"
+              >
+                {v.key}
+              </code>
+            ))}
+            {variables.length > 2 && (
+              <span className="text-label-medium text-md-on-surface-variant">
+                +{variables.length - 2}
+              </span>
+            )}
           </div>
-        )
-      }
+        </div>
+      )}
 
       {/* Tags row */}
       {tags.length > 0 && (
@@ -195,19 +150,16 @@ export function PromptCard({
             <span
               key={tag.id}
               className="tag"
-            // style={{
-            //   backgroundColor: `${tag.color}15`,
-            //   color: tag.color,
-            // }}
+              // style={{
+              //   backgroundColor: `${tag.color}15`,
+              //   color: tag.color,
+              // }}
             >
               {tag.name}
             </span>
           ))}
           {tags.length > 3 && (
-            <span
-              className="text-label-medium px-1"
-              style={{ color: "hsl(var(--md-on-surface-variant))" }}
-            >
+            <span className="text-label-medium px-1 text-md-on-surface-variant">
               +{tags.length - 3}
             </span>
           )}
@@ -232,16 +184,9 @@ export function PromptCard({
         <button
           type="button"
           onClick={handleCopy}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-full font-medium text-label-large transition-all duration-200 ${copied ? "" : "btn-secondary"
-            }`}
-          style={
-            copied
-              ? {
-                background: "hsl(120 60% 50% / 0.15)",
-                color: "hsl(120 60% 40%)",
-              }
-              : undefined
-          }
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-full font-medium text-label-large transition-all duration-200 ${
+            copied ? "bg-[hsl(120_60%_50%/0.15)] text-[hsl(120_60%_40%)]" : "btn-secondary"
+          }`}
         >
           {copied ? (
             <>
@@ -256,6 +201,6 @@ export function PromptCard({
           )}
         </button>
       </div>
-    </div >
+    </div>
   );
 }

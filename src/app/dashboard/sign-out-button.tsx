@@ -15,12 +15,7 @@ export function SignOutButton() {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleSignOut}
-      className="icon-btn"
-      style={{ color: "hsl(var(--md-error))" }}
-    >
+    <button type="button" onClick={handleSignOut} className="icon-btn text-md-error">
       <LogOut className="w-5 h-5" />
     </button>
   );

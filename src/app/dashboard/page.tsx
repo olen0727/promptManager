@@ -17,14 +17,8 @@ export default async function DashboardPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* MD3 Background - Subtle gradient */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-primary) / 0.1)" }}
-        />
-        <div
-          className="absolute top-1/2 -left-40 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: "hsl(var(--md-tertiary) / 0.08)" }}
-        />
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full blur-[120px] bg-md-primary/10" />
+        <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] rounded-full blur-[120px] bg-md-tertiary/10" />
       </div>
 
       {/* Header - MD3 Top App Bar */}
@@ -33,22 +27,15 @@ export default async function DashboardPage() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <a
-                href="/dashboard"
-                className="text-title-large"
-                style={{ color: "hsl(var(--md-on-surface))" }}
-              >
-                Prompt<span style={{ color: "hsl(var(--md-primary))" }}>Manger</span>
+              <a href="/dashboard" className="text-title-large text-md-on-surface">
+                Prompt<span className="text-md-primary">Manger</span>
               </a>
             </div>
 
             {/* User section */}
             <div className="flex items-center gap-3">
               <div className="chip">
-                <div
-                  className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ background: "hsl(120 60% 50%)" }}
-                />
+                <div className="w-2 h-2 rounded-full animate-pulse bg-[hsl(120_60%_50%)]" />
                 <span className="max-w-[120px] truncate">
                   {user.user_metadata?.user_name || user.email?.split("@")[0]}
                 </span>

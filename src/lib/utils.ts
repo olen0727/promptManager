@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export interface Variable {
@@ -36,7 +36,10 @@ export function extractVariables(content: string): Variable[] {
 
     // Parse options if present
     const options = optionsString
-      ? optionsString.split(",").map(o => o.trim()).filter(Boolean)
+      ? optionsString
+          .split(",")
+          .map((o) => o.trim())
+          .filter(Boolean)
       : [];
 
     // If variable not seen yet, or if this instance has options and previous didn't, update it
@@ -44,7 +47,7 @@ export function extractVariables(content: string): Variable[] {
       uniqueVars.set(key, {
         key,
         raw: rawContent,
-        options
+        options,
       });
     }
   }
